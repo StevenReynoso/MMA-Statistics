@@ -21,21 +21,11 @@ const gridTemplateSmallScreens = `
   "a"
   "a"
   "a"
-  "a"
-  "a"
-  "a"
-  "a"
-  "a"
   "b"
   "b"
   "b"
   "b"
   "b"
-  "b"
-  "b"
-  "b"
-  "c"
-  "c"
   "c"
 `;
 
@@ -54,8 +44,8 @@ const Dashboard = () => {
             gridTemplateRows: "repeat(10, minmax(60px, 1fr))",
             gridTemplateAreas: gridTemplateLargeScreens,
           } : {
-            gridautoColumns: "1fr",
-            gridautoRows: "80px",
+            gridAutoColumns: "1fr",
+            gridAutoRows: "80px",
             gridTemplateAreas: gridTemplateSmallScreens,
           }
         }

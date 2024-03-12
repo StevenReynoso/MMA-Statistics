@@ -1,0 +1,24 @@
+
+
+Todo: Few fighters are found with same image, 
+Bug   ex charalampos grigoriou vs chad anheliger in tuivasa card
+
+      Location to check: datascrape of fighter images
+
+Todo: When on small screen, clicking fighter card changes width of
+Bug   respected boxes being changed.
+
+
+
+
+
+Todo: Create something to show users differences of upcoming fights
+Ft    and previous fights easier than looking at dates, when looking
+      at fighter cards.
+
+Todo: TBD fighter cards dont necessarily need to be there.
+Ft
+
+
+
+      
