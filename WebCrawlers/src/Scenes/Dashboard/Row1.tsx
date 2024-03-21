@@ -12,7 +12,6 @@ const Row1 = ({ setActiveId }: Props) => {
 
     const handleBoxClick = (eventData: any) => {
         setActiveId(eventData.ID); // Set active ID when box clicked
-        console.log("Box clicked:", eventData);
     };
 
     return (
@@ -24,11 +23,11 @@ const Row1 = ({ setActiveId }: Props) => {
                     overflow: 'auto',
                     maxHeight: '98%',
                 }}>
-                    {data && data.map((event: any, index: number) => (
+                    {data && data.map((event: any) => (
                         <div
-                            key={index}
+                            key={event.ID}
                             onClick={() => handleBoxClick(event)}
-                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseEnter={() => setHoveredIndex(event.ID)}
                             onMouseLeave={() => setHoveredIndex(null)}
                             style={{
                                 border: '1px solid black',
@@ -36,8 +35,8 @@ const Row1 = ({ setActiveId }: Props) => {
                                 color: 'whitesmoke',
                                 display: 'flex',
                                 alignItems: 'center',
-                                borderColor: hoveredIndex === index ? 'lightseagreen' : 'transparent',
-                                transition: 'background-color 0.3s ease-in-out'
+                                borderColor: hoveredIndex === event.ID ? 'lightseagreen' : 'transparent',
+                                transition: 'all 0.3s ease-in-out'
                             }}
                         >
                             <div>

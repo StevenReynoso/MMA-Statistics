@@ -1,20 +1,25 @@
 import DashboardBox from '@/Components/DashboardBox';
-import { useGetKpisQuery } from '@/State/api';
+import { useGetFightersQuery } from '@/State/api';
 import React from 'react';
 
-type Props = {}
-
-const Row3 = (props: Props) => {
-  const { data } = useGetKpisQuery();
-  //console.log('Edata:', data)
-  return (
-    <>
-        <DashboardBox gridArea="g"></DashboardBox>
-        <DashboardBox gridArea="h"></DashboardBox>
-        <DashboardBox gridArea="i"></DashboardBox>
-        <DashboardBox gridArea="j"></DashboardBox>
-    </>
-  )
+type Props = {
+  setActiveId: (id: number) => void;
 }
 
-export default Row3
+const Row3 = (props: Props) => {
+  const { data } = useGetFightersQuery();
+
+  const handleClick = (id: number) => {
+    // Pass the ID back to Row2
+    props.setActiveId(id); // Assuming id is defined somewhere
+  };
+
+  return (
+    <>
+      <DashboardBox gridArea="g"></DashboardBox>
+      <DashboardBox gridArea="h"></DashboardBox>
+    </>
+  );
+}
+
+export default Row3;

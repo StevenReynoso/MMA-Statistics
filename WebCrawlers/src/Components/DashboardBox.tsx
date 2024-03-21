@@ -8,3 +8,4 @@ const DashboardBox = styled(Box)(({ theme }) => ({
 }));
 
 export default DashboardBox;
+

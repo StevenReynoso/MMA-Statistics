@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import PixIcon from "@mui/icons-material/Pix";
 import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "@/Components/FlexBetween";
-// import logo from "./mma icons/48.jpg"
+import logo from "./mma icons/48fx.png"
 
 type Props = {};
 
@@ -15,8 +14,8 @@ const Navbar = (props: Props) => {
     <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
       {/* LEFT SIDE */}
       <FlexBetween gap="0.75rem">
-        <PixIcon sx={{ fontSize: "28px" }} />
-        {/* <img src={ logo } alt="Logo" style={{ width: "50px", height: "50px" }} />  */}
+        {/* <PixIcon sx={{ fontSize: "28px" }} /> */}
+        <img src={ logo } alt="Logo" style={{ width: "80px", height: "80px" }} /> 
         <Typography variant="h4" fontSize="16px">
           Octagon Fight Data
         </Typography>

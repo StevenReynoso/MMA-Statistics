@@ -1,0 +1,116 @@
+.rowC {
+    color: whitesmoke;
+    text-align: center;
+}
+  
+
+.additional-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    grid-column: 2;
+    transition: all 1s ease-in-out;
+    margin-bottom: 20em;
+}
+  
+.additional-stats > div {
+    /* padding: 10px; Add padding to all child div elements */
+}
+  
+.additional-stats .red-stats-column {
+    text-align: right;
+}
+
+.additional-stats .blue-stats-column {
+    text-align: left;
+}
+  
+.additional-stats .label-column {
+    margin-top: 12px;
+}
+  
+.additional-stats .label-column > div {
+    margin-top: 14px;
+}
+
+.event-container {
+    border: 1px solid black;
+    padding: 5px;
+    color: whitesmoke;
+    display: grid;
+    box-shadow: 10px 0.5px 10px black;
+    align-items: start;
+    justify-content: space-between;
+    transition: all 0.4s ease-in-out;
+    grid-template-columns: 1fr auto 1fr;
+}
+  
+.event-container:hover {
+    border-color: lightseagreen;
+}
+  
+.event-container.expanded {
+    grid-template-columns: 2fr auto 2fr;
+    transform: scale(1.01);
+}
+
+/* Red Fighter */
+.red-fighter-info {
+    display: grid;
+    grid-row: 1 / span 2;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column: 1;
+}
+  
+.red-fighter-info h2 {
+    margin-top: 52px;
+    grid-column: 3;
+}
+  
+.red-fighter-info p {
+    font-size: 15px;
+    margin: 0px 0;
+}
+  
+.red-fighter-info img {
+    width: 185px;
+    height: 150px;
+    object-fit: cover;
+    object-position: center top;
+    margin-left: auto;
+    margin-right: auto;
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* expanded icons */
+.columnFlex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.columnFlex h4 {
+    align-items: start;
+    font-size: 18px;
+}
+
+/* Blue-Fighter-Info */
+.blue-fighter-info {
+    display: grid;
+    grid-row: 1 / span 2;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column: 3;
+    justify-content: end;
+}
+
+.blue-fighter-info h2 {
+    margin-top: 52px;
+    text-align: right;
+}
+
+.blue-fighter-info p {
+    font-size: 15px;
+    margin: 0;
+    text-align: right;
+}
