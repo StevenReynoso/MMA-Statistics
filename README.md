@@ -22,6 +22,7 @@ Technologies Used
     Frontend:
         React.js
         Redux Toolkit
+        Typescript
         React Router
         HTML5/CSS3
         Axios (for API requests)
