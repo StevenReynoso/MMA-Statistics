@@ -1,5 +1,6 @@
 MMA Statistics Website
-![image](https://github.com/StevenReynoso/MMA-Statistics/assets/114453891/ba7a9b00-9aa0-4658-8905-b4cbf4e1c030)
+![image](https://github.com/StevenReynoso/MMA-Statistics/assets/114453891/c53b6e1a-60ad-45f5-b4d3-b79600299355)
+
 
 
 
