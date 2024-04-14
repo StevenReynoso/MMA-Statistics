@@ -44,10 +44,10 @@ mongoose
     
   })
   .then(async () => {
-    // Drop the database
+    // Drops the database, close these after updating
     await mongoose.connection.db.dropDatabase();
     
-      // grab data when needed
+      // close after updating, 
     await Fighter.insertMany(data);
     await KPI.insertMany(data);
     await Event.insertMany(Events_dates_data);

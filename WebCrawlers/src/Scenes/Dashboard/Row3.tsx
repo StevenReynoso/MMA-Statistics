@@ -1,21 +1,20 @@
 import DashboardBox from '@/Components/DashboardBox';
 import { useGetFightersQuery } from '@/State/api';
-import React from 'react';
+import Row1 from './Row1';
+import React, {useState} from 'react';
 
 type Props = {
   setActiveId: (id: number) => void;
 }
 
-const Row3 = (props: Props) => {
+const Row3 = (setID: Props) => {
   const { data } = useGetFightersQuery();
+  const [id, setId] = useState<number>(0);
 
-  const handleClick = (id: number) => {
-    // Pass the ID back to Row2
-    props.setActiveId(id); // Assuming id is defined somewhere
-  };
 
   return (
     <>
+      <Row1 setActiveId={setId}/>
       <DashboardBox gridArea="g"></DashboardBox>
       <DashboardBox gridArea="h"></DashboardBox>
     </>

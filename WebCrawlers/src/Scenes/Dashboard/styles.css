@@ -1,6 +1,7 @@
 .rowC {
     color: whitesmoke;
     text-align: center;
+    margin-top: 38px;
 }
   
 
@@ -14,7 +15,7 @@
 }
   
 .additional-stats > div {
-    /* padding: 10px; Add padding to all child div elements */
+     padding: 10px; /* Add padding to all child div elements */
 }
   
 .additional-stats .red-stats-column {
@@ -26,7 +27,7 @@
 }
   
 .additional-stats .label-column {
-    margin-top: 12px;
+    margin-top: 14px;
 }
   
 .additional-stats .label-column > div {

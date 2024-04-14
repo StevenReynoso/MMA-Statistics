@@ -6,9 +6,9 @@ import { useGetFightersQuery, useGetFightsQuery, useGetKpisQuery } from '@/State
 import { useState, useEffect, useRef } from 'react';
 import Row1 from './Row1';
 
-
 type Props = {
   setActiveId: (id: number) => void;
+  setId: (id: number) => void;
 }
 
 
@@ -19,6 +19,8 @@ const Row2 = (props: Props) => {
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number>(0);
+  const [Id, setId] = useState<number>(0);
+
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [selectedFighterNames, setSelectedFighterNames] = useState<{ red: string, blue: string } | null>(null);
   const [tempselectedFighterNames, setTempSelectedFighterNames] = useState<{ red: string, blue: string } | null>(null);
@@ -151,19 +153,17 @@ const Row2 = (props: Props) => {
       }
     };
 
-    // Render expanded content
     return (
       <div className="additional-stats">
         <div className="red-stats-column">{redStat()}</div>
         <div className="label-column">
-          Record
+               Record
           <div>Height</div>
           <div>Weight</div>
           <div>Reach</div>
           <div>Stance</div>
         </div>
         <div className="blue-stats-column">{blueStat()}</div>
-        {/* Add more stats here */}
       </div>
     );
   };
@@ -248,11 +248,11 @@ const Row2 = (props: Props) => {
         </div>
       </DashboardBox>
       <DashboardBox gridArea="c">
-        <div class="rowC">
+        <p className="rowC">
           Octagon Fight Data isn't endorsed by UFC and doesn't reflect the views or opinions of the UFC
           or anyone officially involved in producing or managing UFC. UFC
           are trademarks or registered trademarks of the UFC, Inc.
-        </div>
+        </p>
       </DashboardBox>
     </>
   );
