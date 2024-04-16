@@ -7,8 +7,10 @@ import Navbar from "@/Scenes/NavBar";
 import Dashboard from "@/Scenes/Dashboard";
 import Predictions from './Scenes/Predictions';
 
+
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), [])
+  
   return (
     <div className='app'>
       <BrowserRouter>
@@ -17,8 +19,8 @@ function App() {
         <Box width= "100%" height="100%" padding="1rem 2rem 4rem 2rem">
           <Navbar />
           <Routes>
-            <Route path="/" element={<Dashboard />}/> //homepage
-            <Route path="/predictions" element={<Predictions/>} />
+            <Route path="/" element={<Dashboard setActiveId={Number} setId={Number} />} />
+            <Route path="/predictions" element={<Predictions />} />
           </Routes>
         </Box>
        </ThemeProvider>

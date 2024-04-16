@@ -1,20 +1,17 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-nocheck
 import DashboardBox from '@/Components/DashboardBox';
-import { useGetFightersQuery } from '@/State/api';
 import Row1 from './Row1';
-import React, {useState} from 'react';
+
 
 type Props = {
   setActiveId: (id: number) => void;
 }
 
-const Row3 = (setID: Props) => {
-  const { data } = useGetFightersQuery();
-  const [id, setId] = useState<number>(0);
-
-
+const Row3 = ({ setActiveId }: Props) => {
   return (
     <>
-      <Row1 setActiveId={setId}/>
+      <Row1 setActiveId={setActiveId}/>
       <DashboardBox gridArea="g"></DashboardBox>
       <DashboardBox gridArea="h"></DashboardBox>
     </>

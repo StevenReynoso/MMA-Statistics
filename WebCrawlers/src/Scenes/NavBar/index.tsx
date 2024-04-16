@@ -4,10 +4,8 @@ import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "@/Components/FlexBetween";
 import logo from "./mma icons/48fx.png";
 
-type Props = {};
 
-
-const Navbar = (props: Props) => {
+const Navbar = () => {
   const { palette } = useTheme();
   const [selected, setSelected] = useState("dashboard");
 
@@ -32,7 +30,7 @@ const Navbar = (props: Props) => {
 
        {/* RIGHT SIDE */}
        <FlexBetween gap="2rem">
-        <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+        <Box sx={{ "&:hover": { color: palette.primary.main } }}>
           <Link
             to="/"
             onClick={() => setSelected("dashboard")}
@@ -45,7 +43,7 @@ const Navbar = (props: Props) => {
             Events
           </Link>
         </Box>
-        <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+        <Box sx={{ "&:hover": { color: palette.primary.main } }}>
           <Link
             to="/predictions"
             onClick={() => setSelected("predictions")}

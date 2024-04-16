@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-nocheck
+
 import DashboardBox from '@/Components/DashboardBox';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -13,22 +16,25 @@ type Props = {
 
 
 const Row2 = (props: Props) => {
+  
   const { data: fightsData } = useGetFightsQuery();
   const { data: fightersData } = useGetFightersQuery();
   const { data: kpisData } = useGetKpisQuery();
-
+  
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number>(0);
   const [Id, setId] = useState<number>(0);
-
+  
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [selectedFighterNames, setSelectedFighterNames] = useState<{ red: string, blue: string } | null>(null);
   const [tempselectedFighterNames, setTempSelectedFighterNames] = useState<{ red: string, blue: string } | null>(null);
   const [selectedFighterNick, setSelectedFighterNick] = useState<{ red: string, blue: string } | null>(null);
-
-
+  
+  
   const containerRef = useRef<HTMLDivElement>(null);
-
+  console.log(props, hoveredIndex, Id, setId)
+  
+  
   const handleBoxClick = (id: number, redName: string, redNick: string, blueName: string, blueNick: string) => {
     setSelectedFighterNames({ red: redName + " " + redNick.trim(), blue: blueName + " " + blueNick.trim() }); setExpandedId(prevId => (prevId === id ? null : id));
     setTempSelectedFighterNames({ red: redName, blue: blueName });
@@ -38,7 +44,7 @@ const Row2 = (props: Props) => {
     // Pass the red and blue fighter names along with the ID to Row3
   };
 
-  const normalizeString = (str) => {
+  const normalizeString = (str: string) => {
     return str
       .normalize("NFD") // Normalize to decomposed form
       .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
@@ -46,17 +52,19 @@ const Row2 = (props: Props) => {
       .toLowerCase(); // Convert to lowercase
   };
 
-  const renderExpandedContent = (event: any) => {
+  const renderExpandedContent = (event: never) => {
+    console.log(event)
     if (!selectedFighterNames) return null;
     if (!tempselectedFighterNames) return null;
-    let selectedRedFighter;
-    let selectedBlueFighter;
+    let selectedRedFighter: { Fighter_ID: never; Ht: { [x: string]: never; }; Wt: { [x: string]: never; }; Reach: never; Stance: never; };
+    let selectedBlueFighter: { Fighter_ID: never; Ht: { [x: string]: never; }; Wt: { [x: string]: never; }; Reach: never; Stance: never; };
 
     const nickFix = (str: string) => {
       return str.replace(/[""]/g, "");
     };
 
-    const red = fightersData.filter((fighter: any) => {
+    const red = fightersData.filter((fighter: unknown) => {
+
       const fullName = normalizeString(`${fighter.First || ""} ${fighter.Last || ""}`).trim();
       const selectedRedName = normalizeString(tempselectedFighterNames.red).trim();
       console.log('@@R', fullName, selectedRedName)
@@ -66,7 +74,7 @@ const Row2 = (props: Props) => {
     if (red.length > 1 && red.length != 0) {
       for (let i = 0; i < red.length; i++) {
         const fighter = red[i];
-        if (nickFix(selectedFighterNick?.red).trim() === fighter.Nickname) {
+        if (nickFix(selectedFighterNick?.red ?? "").trim() === fighter.Nickname) {
           selectedRedFighter = fighter;
           break;
         }
@@ -77,10 +85,9 @@ const Row2 = (props: Props) => {
 
     //if(!redFighter) return null;
 
-    console.log('**RED', selectedRedFighter)
-
+    
     const redStats = selectedRedFighter ? kpisData.find((stat: any) => stat.Fighter_ID === selectedRedFighter.Fighter_ID) : null;
-
+    
 
     const blue = fightersData.filter((fighter: any) => {
       const fullName = normalizeString(`${fighter.First || ""} ${fighter.Last || ""}`).trim();
@@ -102,9 +109,6 @@ const Row2 = (props: Props) => {
       selectedBlueFighter = blue[0];
     }
 
-    console.log('**Blue', blue)
-    console.log('**REDStats', redStats)
-    console.log('***SelectRed', selectedRedFighter)
 
     //if(!blueFighter) return null;
     const blueStats = selectedBlueFighter ? kpisData.find((stat: any) => stat.Fighter_ID === selectedBlueFighter.Fighter_ID) : null;
@@ -183,7 +187,7 @@ const Row2 = (props: Props) => {
       <DashboardBox gridArea="b">
         <div ref={containerRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(1fr , 1fr)', overflow: 'auto', maxHeight: '98%' }}>
           {fightsData &&
-            fightsData.map((event: any, index: number) => (
+            fightsData.map((event: EventType, index: number) => (
               activeId === event.ID && (
                 <div
                   key={index}

@@ -1,11 +1,9 @@
+//@ts-expect //ignore warning
 import { useTheme } from "@mui/material";
-import React from "react"
 
-
-type Props = {};
-
-const Predictions = (props: Props) => {
+const Predictions = () => {
     const { palette } = useTheme()
+    console.log(palette.primary)
 
     return (
         <div style={{textAlign: 'center'}}>

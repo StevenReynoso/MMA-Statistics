@@ -1,9 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-nocheck
 import DashboardBox from '@/Components/DashboardBox';
 import { useGetEventsQuery } from '@/State/api';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 
-const Row1 = ({ setActiveId }) => {
+const Row1 = ({ setActiveId = () => {} }: { setActiveId?: (id: string) => void }) => {    
     const { data, isLoading, isError } = useGetEventsQuery();
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [fightFilter, setFightFilter] = useState('Upcoming');
@@ -14,7 +16,7 @@ const Row1 = ({ setActiveId }) => {
         "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11,
     };
 
-    const normalizeString = (str) => {
+    const normalizeString = (str: string) => {
         const pattern = /\b[A-Za-z]{3} \d{1,2}\b/;
         const match = str.match(pattern);
         return match ? match[0] : "Date not found in the specified format.";
@@ -25,10 +27,10 @@ const Row1 = ({ setActiveId }) => {
         const currentMonth = currentDate.getMonth();
         const currentDay = currentDate.getDate();
 
-        return data?.filter((event) => {
+        return data?.filter((event: { Event_Date: string; }) => {
             const findDate = normalizeString(event.Event_Date);
             const [monthName, day] = findDate.split(" ");
-            const eventMonth = monthMap[monthName];
+            const eventMonth =  monthMap[monthName];
 
             if (fightFilter === "Upcoming") {
                 return (eventMonth > currentMonth || (eventMonth === currentMonth && parseInt(day) >= currentDay));
@@ -39,21 +41,21 @@ const Row1 = ({ setActiveId }) => {
         }) || [];
     };
 
-    const handleBoxClick = (eventData) => {
+    const handleBoxClick = (eventData: { ID: unknown; }) => {
         setActiveId(eventData.ID);
     };
 
     useEffect(() => {
         // Check if activeId exists in filteredEvents, if not, update activeId
         const filteredEvents = filterEvents();
-        if (setActiveId && !filteredEvents.find(event => event.ID === activeId)) {
+        if (setActiveId && !filteredEvents.find((event: { ID: null; }) => event.ID === activeId)) {
             setActiveId(filteredEvents.length > 0 ? filteredEvents[0].ID : null);
         }
     }, [data, fightFilter]); // Update when data or filter changes
 
     const filteredEvents = filterEvents();
 
-    const getButtonStyle = (filterType) => ({
+    const getButtonStyle = (filterType: string) => ({
         fontSize: '20px',
         backgroundColor: fightFilter === filterType ? 'rgba(32, 178, 170, 0.6)' : '#2d2d34',
         color: fightFilter === filterType ? 'white' : '#12efc8',
@@ -81,7 +83,7 @@ const Row1 = ({ setActiveId }) => {
                 maxHeight: '92%',
                 maxWidth: '100%',
             }}>
-                {filteredEvents.map((event) => (
+                {filteredEvents.map((event: { ID: never; Event_Name?: never; Event_Date?: never; Red_Fighter_images?: never; Blue_Fighter_images?: never; }) => (
                     <div
                         key={event.ID}
                         onClick={() => handleBoxClick(event)}

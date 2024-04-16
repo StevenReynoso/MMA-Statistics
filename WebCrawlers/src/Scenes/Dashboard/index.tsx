@@ -1,10 +1,6 @@
 import { Box, useMediaQuery} from '@mui/material'
-import Row1 from './Row1';
 import Row2 from './Row2';
-import Row3 from './Row3';
-import shadows from '@mui/material/styles/shadows';
 
-type Props = {};
 
 const gridTemplateLargeScreens = `
     "a b b"
@@ -33,9 +29,14 @@ const gridTemplateSmallScreens = `
   "c"
 `;
 
+type Props = {
+  setActiveId: (id: number) => void;
+  setId: (id: number) => void;
+}
 
-const Dashboard = () => {
+const Dashboard = ({ setActiveId, setId }: Props) => {
   const isAboveMediumScreens = useMediaQuery("(min-width: 1200px)")
+
   return (
     <Box 
         width="100%" 
@@ -55,7 +56,7 @@ const Dashboard = () => {
         }
     >
         {/* <Row1 /> */}
-        <Row2/>
+        <Row2 setActiveId={setActiveId} setId={setId} />
         {/* <Row3 /> */}
     </Box>
   );
