@@ -13,9 +13,9 @@ import KPI from "./models/KPI.js";
 import Fighter from "./models/Fighter.js";
 import Event from "./models/Event.js";
 import Fight from "./models/Fight.js";
-import { data } from "../UFC Stats_Scrapped/data.js";
-import { Events_dates_data } from "../UFC Stats_Scrapped/UFC_Events/Event_Dates_data.js";
-import { Events_Fights_data } from "../UFC Stats_Scrapped/UFC_Events/Event_Fights_data.js";
+import { data } from "./UFC_Stats_Scrapped/data.js";
+import { Events_dates_data } from "./UFC_Stats_Scrapped/UFC_Events/Event_Dates_data.js";
+import { Events_Fights_data } from "./UFC_Stats_Scrapped/UFC_Events/Event_Fights_data.js";
 
 
 /* Configurations */
