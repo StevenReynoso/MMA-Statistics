@@ -1,71 +1,72 @@
 @media (max-width: 600px) {
+    .red-fighter-info,
+    .blue-fighter-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
     .red-fighter-info {
-        
         grid-row: 1 / span 2;
-        grid-template-columns: 1fr 1fr 1fr;
         grid-column: 1;
-        width: min-content;
     }
 
     .blue-fighter-info {
-        display: inline;
         grid-row: 1 / span 2;
-        grid-template-columns: 1fr 1fr 1fr;
         grid-column: 3;
-        justify-content: end;
-        width: min-content;
     }
 
     .columnFlex {
         text-align: center;
+        margin: 10px 0;
     }
 
-    .red-fighter-info p {
-        text-align: center;
+    .additional-stats {
+        flex-direction: column;
+        font-size: 0.7em;
     }
     
-    .blue-fighter-info p {
+    .additional-stats > div {
         text-align: center;
+        padding: 5px;
     }
 
+    .red-fighter-info p,
+    .blue-fighter-info p {
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    .event-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .event-container.expanded {
+        grid-template-columns: 1fr;
+        transform: scale(1.01);
+    }
+
+    .middleweight-bout {
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .additional-stats {
+        margin-bottom: 5em;
+    }
+
+    .additional-stats .label-column {
+        margin-top: 10px;
+    }
+    
+    .additional-stats .label-column > div {
+        margin-top: 10px;
+    }
 }
 
-.rowC {
-    color: whitesmoke;
-    text-align: center;
-    margin-top: 38px;
-}
-  
-
-.additional-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-items: center;
-    grid-column: 2;
-    transition: all 1s ease-in-out;
-    margin-bottom: 20em;
-}
-  
-.additional-stats > div {
-     padding: 10px; /* Add padding to all child div elements */
-}
-  
-.additional-stats .red-stats-column {
-    text-align: right;
-}
-
-.additional-stats .blue-stats-column {
-    text-align: left;
-}
-  
-.additional-stats .label-column {
-    margin-top: 14px;
-}
-  
-.additional-stats .label-column > div {
-    margin-top: 14px;
-}
-
+/* General styles */
 .event-container {
     border: 1px solid black;
     padding: 5px;
@@ -77,11 +78,11 @@
     transition: all 0.4s ease-in-out;
     grid-template-columns: 1fr auto 1fr;
 }
-  
+
 .event-container:hover {
     border-color: lightseagreen;
 }
-  
+
 .event-container.expanded {
     grid-template-columns: 2fr auto 2fr;
     transform: scale(1.01);
@@ -93,17 +94,17 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-column: 1;
 }
-  
+
 .red-fighter-info h2 {
-    margin-top: 52px;
+    margin-top: 20px;
     grid-column: 3;
 }
-  
+
 .red-fighter-info p {
     font-size: 15px;
-    margin: 0px 0;
+    margin: 0;
 }
-  
+
 .red-fighter-info img {
     width: 185px;
     height: 150px;
@@ -115,7 +116,57 @@
     grid-row: 1;
 }
 
-/* expanded icons */
+/* Blue Fighter */
+.blue-fighter-info {
+    display: grid;
+    grid-row: 1 / span 2;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column: 3;
+    justify-content: end;
+}
+
+.blue-fighter-info h2 {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.blue-fighter-info p {
+    font-size: 15px;
+    margin: 0;
+    text-align: right;
+}
+
+/* Additional Stats */
+.additional-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    grid-column: 2;
+    transition: all 1s ease-in-out;
+    margin-bottom: 20em;
+}
+
+.additional-stats > div {
+    padding: 10px;
+}
+
+.additional-stats .red-stats-column {
+    text-align: right;
+}
+
+.additional-stats .blue-stats-column {
+    text-align: left;
+}
+
+.additional-stats .label-column {
+    margin-top: 14px;
+}
+
+.additional-stats .label-column > div {
+    margin-top: 14px;
+}
+
+/* Expanded icons */
 .columnFlex {
     display: flex;
     flex-direction: column;
@@ -127,22 +178,8 @@
     font-size: 18px;
 }
 
-/* Blue-Fighter-Info */
-.blue-fighter-info {
-    display: grid;
-    grid-row: 1 / span 2;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-column: 3;
-    justify-content: end;
-}
-
-.blue-fighter-info h2 {
-    margin-top: 52px;
-    text-align: right;
-}
-
-.blue-fighter-info p {
-    font-size: 15px;
-    margin: 0;
-    text-align: right;
+.rowC {
+    color: whitesmoke;
+    text-align: center;
+    margin-top: 38px;
 }

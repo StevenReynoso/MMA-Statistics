@@ -1,47 +1,66 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-nocheck
 
-import DashboardBox from '@/Components/DashboardBox';
+import DashboardBox from "@/Components/DashboardBox";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { useMediaQuery } from '@mui/material';
-import './styles.css';
-import { useGetFightersQuery, useGetFightsQuery, useGetKpisQuery } from '@/State/api';
-import { useState, useEffect, useRef } from 'react';
-import Row1 from './Row1';
+import { useMediaQuery } from "@mui/material";
+import "./styles.css";
+import {
+  useGetFightersQuery,
+  useGetFightsQuery,
+  useGetKpisQuery,
+} from "@/State/api";
+import { useState, useEffect, useRef } from "react";
+import Row1 from "./Row1";
 
 type Props = {
   setActiveId: (id: number) => void;
   setId: (id: number) => void;
-}
-
+};
 
 const Row2 = (props: Props) => {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  
+
   const { data: fightsData } = useGetFightsQuery();
   const { data: fightersData } = useGetFightersQuery();
   const { data: kpisData } = useGetKpisQuery();
-  
+
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number>(0);
   const [Id, setId] = useState<number>(0);
-  
+
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [selectedFighterNames, setSelectedFighterNames] = useState<{ red: string, blue: string } | null>(null);
-  const [tempselectedFighterNames, setTempSelectedFighterNames] = useState<{ red: string, blue: string } | null>(null);
-  const [selectedFighterNick, setSelectedFighterNick] = useState<{ red: string, blue: string } | null>(null);
-  
-  
+  const [selectedFighterNames, setSelectedFighterNames] = useState<{
+    red: string;
+    blue: string;
+  } | null>(null);
+  const [tempselectedFighterNames, setTempSelectedFighterNames] = useState<{
+    red: string;
+    blue: string;
+  } | null>(null);
+  const [selectedFighterNick, setSelectedFighterNick] = useState<{
+    red: string;
+    blue: string;
+  } | null>(null);
+
   const containerRef = useRef<HTMLDivElement>(null);
-  console.log(props, hoveredIndex, Id, setId)
-  
-  
-  const handleBoxClick = (id: number, redName: string, redNick: string, blueName: string, blueNick: string) => {
-    setSelectedFighterNames({ red: redName + " " + redNick.trim(), blue: blueName + " " + blueNick.trim() }); setExpandedId(prevId => (prevId === id ? null : id));
+  console.log(props, hoveredIndex, Id, setId);
+
+  const handleBoxClick = (
+    id: number,
+    redName: string,
+    redNick: string,
+    blueName: string,
+    blueNick: string
+  ) => {
+    setSelectedFighterNames({
+      red: redName + " " + redNick.trim(),
+      blue: blueName + " " + blueNick.trim(),
+    });
+    setExpandedId((prevId) => (prevId === id ? null : id));
     setTempSelectedFighterNames({ red: redName, blue: blueName });
     setSelectedFighterNick({ red: redNick, blue: blueNick });
-
 
     // Pass the red and blue fighter names along with the ID to Row3
   };
@@ -55,28 +74,45 @@ const Row2 = (props: Props) => {
   };
 
   const renderExpandedContent = (event: never) => {
-    console.log(event)
+    console.log(event);
     if (!selectedFighterNames) return null;
     if (!tempselectedFighterNames) return null;
-    let selectedRedFighter: { Fighter_ID: never; Ht: { [x: string]: never; }; Wt: { [x: string]: never; }; Reach: never; Stance: never; };
-    let selectedBlueFighter: { Fighter_ID: never; Ht: { [x: string]: never; }; Wt: { [x: string]: never; }; Reach: never; Stance: never; };
+    let selectedRedFighter: {
+      Fighter_ID: never;
+      Ht: { [x: string]: never };
+      Wt: { [x: string]: never };
+      Reach: never;
+      Stance: never;
+    };
+    let selectedBlueFighter: {
+      Fighter_ID: never;
+      Ht: { [x: string]: never };
+      Wt: { [x: string]: never };
+      Reach: never;
+      Stance: never;
+    };
 
     const nickFix = (str: string) => {
       return str.replace(/[""]/g, "");
     };
 
     const red = fightersData.filter((fighter: unknown) => {
-
-      const fullName = normalizeString(`${fighter.First || ""} ${fighter.Last || ""}`).trim();
-      const selectedRedName = normalizeString(tempselectedFighterNames.red).trim();
-      console.log('@@R', fullName, selectedRedName)
+      const fullName = normalizeString(
+        `${fighter.First || ""} ${fighter.Last || ""}`
+      ).trim();
+      const selectedRedName = normalizeString(
+        tempselectedFighterNames.red
+      ).trim();
+      console.log("@@R", fullName, selectedRedName);
       return fullName === selectedRedName;
     });
 
     if (red.length > 1 && red.length != 0) {
       for (let i = 0; i < red.length; i++) {
         const fighter = red[i];
-        if (nickFix(selectedFighterNick?.red ?? "").trim() === fighter.Nickname) {
+        if (
+          nickFix(selectedFighterNick?.red ?? "").trim() === fighter.Nickname
+        ) {
           selectedRedFighter = fighter;
           break;
         }
@@ -87,18 +123,24 @@ const Row2 = (props: Props) => {
 
     //if(!redFighter) return null;
 
-    
-    const redStats = selectedRedFighter ? kpisData.find((stat: any) => stat.Fighter_ID === selectedRedFighter.Fighter_ID) : null;
-    
+    const redStats = selectedRedFighter
+      ? kpisData.find(
+          (stat: any) => stat.Fighter_ID === selectedRedFighter.Fighter_ID
+        )
+      : null;
 
     const blue = fightersData.filter((fighter: any) => {
-      const fullName = normalizeString(`${fighter.First || ""} ${fighter.Last || ""}`).trim();
-      const selectedRedName = normalizeString(tempselectedFighterNames.blue).trim();
-      console.log('@@R', fullName, selectedRedName)
+      const fullName = normalizeString(
+        `${fighter.First || ""} ${fighter.Last || ""}`
+      ).trim();
+      const selectedRedName = normalizeString(
+        tempselectedFighterNames.blue
+      ).trim();
+      console.log("@@R", fullName, selectedRedName);
       return fullName === selectedRedName;
     });
 
-    console.log('&&names', red);
+    console.log("&&names", red);
     if (blue.length > 1 && blue.length != 0) {
       for (let i = 0; i < blue.length; i++) {
         const fighter = blue[i];
@@ -111,15 +153,18 @@ const Row2 = (props: Props) => {
       selectedBlueFighter = blue[0];
     }
 
-
     //if(!blueFighter) return null;
-    const blueStats = selectedBlueFighter ? kpisData.find((stat: any) => stat.Fighter_ID === selectedBlueFighter.Fighter_ID) : null;
+    const blueStats = selectedBlueFighter
+      ? kpisData.find(
+          (stat: any) => stat.Fighter_ID === selectedBlueFighter.Fighter_ID
+        )
+      : null;
 
     // Render red fighter stats
     const redStat = () => {
       if (selectedRedFighter && redStats) {
         const r_Stats = [
-          { Record: redStats.W + '-' + redStats.L + '-' + redStats.D },
+          { Record: redStats.W + "-" + redStats.L + "-" + redStats.D },
           { Height: selectedRedFighter.Ht[""] },
           { Weight: selectedRedFighter.Wt[""] },
           { Reach: selectedRedFighter.Reach },
@@ -141,7 +186,7 @@ const Row2 = (props: Props) => {
     const blueStat = () => {
       if (selectedBlueFighter && blueStats) {
         const b_Stats = [
-          { Record: blueStats.W + '-' + blueStats.L + '-' + blueStats.D },
+          { Record: blueStats.W + "-" + blueStats.L + "-" + blueStats.D },
           { Height: selectedBlueFighter.Ht[""] },
           { Weight: selectedBlueFighter.Wt[""] },
           { Reach: selectedBlueFighter.Reach },
@@ -160,10 +205,25 @@ const Row2 = (props: Props) => {
     };
 
     return (
-      <div className="additional-stats">
-        <div className="red-stats-column">{redStat()}</div>
-        <div className="label-column">
-               Record
+      <div
+        className="additional-stats"
+        style={{
+          fontSize: isSmallScreen ? "0.8em" : "",
+        }}
+      >
+        <div
+          className="red-stats-column"
+          style={{ marginTop: isSmallScreen ? "inherit" : "" }}
+        >
+          {redStat()}
+        </div>
+        <div
+          className="label-column"
+          style={{
+            fontSize: isSmallScreen ? "0.8em" : "",
+          }}
+        >
+          Record
           <div>Height</div>
           <div>Weight</div>
           <div>Reach</div>
@@ -181,102 +241,212 @@ const Row2 = (props: Props) => {
     }
   }, [activeId]);
 
-
-
   return (
     <>
       <Row1 setActiveId={setActiveId} />
       <DashboardBox gridArea="b">
-        <div ref={containerRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(1fr , 1fr)', overflow: 'auto', maxHeight: '100%' }}>
+        <div
+          ref={containerRef}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(1fr , 1fr)",
+            overflow: "auto",
+            maxHeight: "100%",
+          }}
+        >
           {fightsData &&
-            fightsData.map((event: EventType, index: number) => (
-              activeId === event.ID && (
-                <div
-                  key={index}
-                  onClick={() => handleBoxClick(event.Fight_Num, event.Red_Fighter_Name, event.Red_Fighter_Nickname, event.Blue_Fighter_Name, event.Blue_Fighter_Nickname)}
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  className={`event-container ${expandedId === event.Fight_Num ? 'expanded' : ''}`}
-                >
-                  <div className="red-fighter-info"
-                    style={{display:  isSmallScreen ? 'inline' : 'grid', 
-                            textAlign: isSmallScreen ? 'center' : '',
-                            fontSize : isSmallScreen ? '0.8em' : ''
+            fightsData.map(
+              (event: EventType, index: number) =>
+                activeId === event.ID && (
+                  <div
+                    key={index}
+                    onClick={() =>
+                      handleBoxClick(
+                        event.Fight_Num,
+                        event.Red_Fighter_Name,
+                        event.Red_Fighter_Nickname,
+                        event.Blue_Fighter_Name,
+                        event.Blue_Fighter_Nickname
+                      )
+                    }
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    className={`event-container ${
+                      expandedId === event.Fight_Num ? "expanded" : ""
+                    }`}
+                    style={{
+                      justifyContent: isSmallScreen ? "flex-start" : "",
                     }}
                   >
-                    <h2>{event.Red_Fighter_Name}
-                      <p>{event.Red_Fighter_Nickname}</p>
-                    </h2>
-
-                    <img
-                      src={event.Red_Event_fighter_image}
-                      alt="Red Fighter"
+                    <div
+                      className="red-fighter-info"
                       style={{
-                        width: expandedId === event.Fight_Num ? (isSmallScreen ? '100px' : 'auto') : (isSmallScreen ? '105px' : '185px'),
-                        height: expandedId === event.Fight_Num ? (isSmallScreen ? '600px' : '600px') : (isSmallScreen ? '100px' : '150px'),//'600px' : '150px',
-                        objectFit: expandedId === event.Fight_Num ? 'contain' : 'cover',
-                        objectPosition: 'center top',
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        gridColumn: '2',
-                        gridRow: '1',
+                        display: isSmallScreen ? "inline" : "grid",
+                        textAlign: isSmallScreen ? "center" : "",
+                        fontSize: isSmallScreen ? "0.8em" : "",
                       }}
-                    />
-                  </div>
+                    >
+                      <h2
+                        style={{
+                          textAlign: isSmallScreen ? "center" : "",
+                          fontSize: isSmallScreen ? "1.2em" : "",
+                        }}
+                      >
+                        {event.Red_Fighter_Name}
+                        <p
+                          style={{
+                            textAlign: isSmallScreen ? "center" : "",
+                            fontSize: isSmallScreen ? "0.6em" : "",
+                          }}
+                        >
+                          {event.Red_Fighter_Nickname}
+                        </p>
+                      </h2>
 
-                  <div className="columnFlex">
-                    <h4>{event.Event_Weight}</h4>
-                    <h3 style={{ marginTop: '-12px' }}>VS</h3>
-                    {expandedId === event.Fight_Num ? <ExpandMoreIcon style={{ visibility: 'hidden' }} /> : <ExpandMoreIcon style={{ marginTop: '26px' }} />}
-                  </div>
+                      <img
+                        src={event.Red_Event_fighter_image}
+                        alt="Red Fighter"
+                        style={{
+                          width:
+                            expandedId === event.Fight_Num
+                              ? isSmallScreen
+                                ? "100px"
+                                : "auto"
+                              : isSmallScreen
+                              ? "105px"
+                              : "185px",
+                          height:
+                            expandedId === event.Fight_Num
+                              ? isSmallScreen
+                                ? "600px"
+                                : "600px"
+                              : isSmallScreen
+                              ? "100px"
+                              : "150px", //'600px' : '150px',
+                          objectFit:
+                            expandedId === event.Fight_Num
+                              ? "contain"
+                              : "cover",
+                          objectPosition: "center top",
+                          marginLeft: "auto",
+                          marginRight: "auto",
+                          gridColumn: "2",
+                          gridRow: "1",
+                        }}
+                      />
+                    </div>
 
-                  <div className="blue-fighter-info"
-                    style={{display:  isSmallScreen ? 'inline' : 'grid',
-                            textAlign: isSmallScreen ? 'center' : 'right'
-                     }}
-                  >
-                    <h2
-                      style={{display:  isSmallScreen ? 'inline' : 'grid',
-                      textAlign: isSmallScreen ? 'center' : 'right',
-                      fontSize : isSmallScreen ? '1.2em' : ''
-               }}
-                    >{event.Blue_Fighter_Name}
-                      <p
-                        style={{display:  isSmallScreen ? 'inline' : 'grid',
-                        textAlign: isSmallScreen ? 'center' : 'right',
-                        fontSize : isSmallScreen ? '0.8em' : ''
-                 }}
-                      >{event.Blue_Fighter_Nickname}</p>
-                    </h2>
-                    
-                    <img
-                      src={event.Blue_Event_fighter_image}
-                      alt="Blue Fighter"
+                    <div
+                      className="columnFlex"
                       style={{
-                        width: expandedId === event.Fight_Num ? (isSmallScreen ? '100px' : 'auto') : (isSmallScreen ? '105px' : '185px'),
-                        height: expandedId === event.Fight_Num ? (isSmallScreen ? '600px' : '600px') : (isSmallScreen ? '100px' : '150px'),//'600px' : '150px',
-                        objectFit: expandedId === event.Fight_Num ? 'contain' : 'cover',
-                        objectPosition: 'center top',
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        gridColumn: '2',
-                        gridRow: '1',
+                        fontSize: isSmallScreen ? "0.8em" : "",
+                        paddingBottom: isSmallScreen ? "6em" : "2em",
                       }}
-                    />
-                  </div>
-                  {expandedId === event.Fight_Num && renderExpandedContent(event)}
+                    >
+                      <h4
+                        style={{
+                          fontSize: isSmallScreen ? "1.2em" : "",
+                        }}
+                      >
+                        {event.Event_Weight}
+                      </h4>
+                      <h3
+                        style={{
+                          marginTop: "-12px",
+                          fontSize: isSmallScreen ? "1.2em" : "",
+                        }}
+                      >
+                        VS
+                      </h3>
+                      {expandedId === event.Fight_Num ? (
+                        <ExpandMoreIcon style={{ visibility: "hidden" }} />
+                      ) : (
+                        <ExpandMoreIcon style={{ marginTop: "26px" }} />
+                      )}
+                    </div>
 
-                  {expandedId === event.Fight_Num && <ExpandLessIcon style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', gridColumn: '2' }} />}
-                </div>
-              )
-            ))}
+                    <div
+                      className="blue-fighter-info"
+                      style={{
+                        display: isSmallScreen ? "inline" : "grid",
+                        textAlign: isSmallScreen ? "center" : "right",
+                        fontSize: isSmallScreen ? "0.8em" : "",
+                      }}
+                    >
+                      <h2
+                        style={{
+                          textAlign: isSmallScreen ? "center" : "right",
+                          fontSize: isSmallScreen ? "1.2em" : "",
+                        }}
+                      >
+                        {event.Blue_Fighter_Name}
+                        <p
+                          style={{
+                            textAlign: isSmallScreen ? "center" : "right",
+                            fontSize: isSmallScreen ? "0.6em" : "",
+                          }}
+                        >
+                          {event.Blue_Fighter_Nickname}
+                        </p>
+                      </h2>
+
+                      <img
+                        src={event.Blue_Event_fighter_image}
+                        alt="Blue Fighter"
+                        style={{
+                          width:
+                            expandedId === event.Fight_Num
+                              ? isSmallScreen
+                                ? "100px"
+                                : "auto"
+                              : isSmallScreen
+                              ? "105px"
+                              : "185px",
+                          height:
+                            expandedId === event.Fight_Num
+                              ? isSmallScreen
+                                ? "600px"
+                                : "600px"
+                              : isSmallScreen
+                              ? "100px"
+                              : "150px", //'600px' : '150px',
+                          objectFit:
+                            expandedId === event.Fight_Num
+                              ? "contain"
+                              : "cover",
+                          objectPosition: "center top",
+                          marginLeft: "auto",
+                          marginRight: "auto",
+                          gridColumn: "2",
+                          gridRow: "1",
+                        }}
+                      />
+                    </div>
+                    {expandedId === event.Fight_Num &&
+                      renderExpandedContent(event)}
+
+                    {expandedId === event.Fight_Num && (
+                      <ExpandLessIcon
+                        style={{
+                          display: "block",
+                          marginLeft: "auto",
+                          marginRight: "auto",
+                          marginTop: "auto",
+                          gridColumn: "2",
+                        }}
+                      />
+                    )}
+                  </div>
+                )
+            )}
         </div>
       </DashboardBox>
       <DashboardBox gridArea="c">
         <p className="rowC">
-          Octagon Fight Data isn't endorsed by UFC and doesn't reflect the views or opinions of the UFC
-          or anyone officially involved in producing or managing UFC. UFC
-          are trademarks or registered trademarks of the UFC, Inc.
+          Octagon Fight Data isn't endorsed by UFC and doesn't reflect the views
+          or opinions of the UFC or anyone officially involved in producing or
+          managing UFC. UFC are trademarks or registered trademarks of the UFC,
+          Inc.
         </p>
       </DashboardBox>
     </>
