@@ -198,7 +198,11 @@ const Row2 = (props: Props) => {
                   onMouseLeave={() => setHoveredIndex(null)}
                   className={`event-container ${expandedId === event.Fight_Num ? 'expanded' : ''}`}
                 >
-                  <div className="red-fighter-info">
+                  <div className="red-fighter-info"
+                    style={{display:  isSmallScreen ? 'inline' : 'grid', 
+                            textAlign: isSmallScreen ? 'center' : ''
+                    }}
+                  >
                     <h2>{event.Red_Fighter_Name}
                       <p>{event.Red_Fighter_Nickname}</p>
                     </h2>
@@ -225,9 +229,21 @@ const Row2 = (props: Props) => {
                     {expandedId === event.Fight_Num ? <ExpandMoreIcon style={{ visibility: 'hidden' }} /> : <ExpandMoreIcon style={{ marginTop: '26px' }} />}
                   </div>
 
-                  <div className="blue-fighter-info">
-                    <h2>{event.Blue_Fighter_Name}
-                      <p>{event.Blue_Fighter_Nickname}</p>
+                  <div className="blue-fighter-info"
+                    style={{display:  isSmallScreen ? 'inline' : 'grid',
+                            textAlign: isSmallScreen ? 'center' : 'right'
+                     }}
+                  >
+                    <h2
+                      style={{display:  isSmallScreen ? 'inline' : 'grid',
+                      textAlign: isSmallScreen ? 'center' : 'right'
+               }}
+                    >{event.Blue_Fighter_Name}
+                      <p
+                        style={{display:  isSmallScreen ? 'inline' : 'grid',
+                        textAlign: isSmallScreen ? 'center' : 'right'
+                 }}
+                      >{event.Blue_Fighter_Nickname}</p>
                     </h2>
                     
                     <img
