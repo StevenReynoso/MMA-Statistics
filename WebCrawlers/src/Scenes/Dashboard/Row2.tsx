@@ -4,6 +4,7 @@
 import DashboardBox from '@/Components/DashboardBox';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { useMediaQuery } from '@mui/material';
 import './styles.css';
 import { useGetFightersQuery, useGetFightsQuery, useGetKpisQuery } from '@/State/api';
 import { useState, useEffect, useRef } from 'react';
@@ -16,6 +17,7 @@ type Props = {
 
 
 const Row2 = (props: Props) => {
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
   
   const { data: fightsData } = useGetFightsQuery();
   const { data: fightersData } = useGetFightersQuery();
@@ -185,7 +187,7 @@ const Row2 = (props: Props) => {
     <>
       <Row1 setActiveId={setActiveId} />
       <DashboardBox gridArea="b">
-        <div ref={containerRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(1fr , 1fr)', overflow: 'auto', maxHeight: '98%' }}>
+        <div ref={containerRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(1fr , 1fr)', overflow: 'auto', maxHeight: '100%' }}>
           {fightsData &&
             fightsData.map((event: EventType, index: number) => (
               activeId === event.ID && (
@@ -205,8 +207,8 @@ const Row2 = (props: Props) => {
                       src={event.Red_Event_fighter_image}
                       alt="Red Fighter"
                       style={{
-                        width: expandedId === event.Fight_Num ? 'auto' : '185px',
-                        height: expandedId === event.Fight_Num ? '600px' : '150px',
+                        width: expandedId === event.Fight_Num ? (isSmallScreen ? '100px' : 'auto') : (isSmallScreen ? '105px' : '185px'),
+                        height: expandedId === event.Fight_Num ? (isSmallScreen ? '600px' : '600px') : (isSmallScreen ? '100px' : '150px'),//'600px' : '150px',
                         objectFit: expandedId === event.Fight_Num ? 'contain' : 'cover',
                         objectPosition: 'center top',
                         marginLeft: 'auto',
@@ -232,8 +234,8 @@ const Row2 = (props: Props) => {
                       src={event.Blue_Event_fighter_image}
                       alt="Blue Fighter"
                       style={{
-                        width: expandedId === event.Fight_Num ? 'auto' : '185px',
-                        height: expandedId === event.Fight_Num ? '600px' : '150px',
+                        width: expandedId === event.Fight_Num ? (isSmallScreen ? '100px' : 'auto') : (isSmallScreen ? '105px' : '185px'),
+                        height: expandedId === event.Fight_Num ? (isSmallScreen ? '600px' : '600px') : (isSmallScreen ? '100px' : '150px'),//'600px' : '150px',
                         objectFit: expandedId === event.Fight_Num ? 'contain' : 'cover',
                         objectPosition: 'center top',
                         marginLeft: 'auto',

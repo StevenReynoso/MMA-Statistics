@@ -1,3 +1,22 @@
+@media (max-width: 600px) {
+    .red-fighter-info {
+        display: grid;
+        grid-row: 1 / span 2;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column: 1;
+        width: min-content;
+    }
+
+    .blue-fighter-info {
+        display: grid;
+        grid-row: 1 / span 2;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column: 3;
+        justify-content: end;
+        width: min-content;
+    }
+}
+
 .rowC {
     color: whitesmoke;
     text-align: center;

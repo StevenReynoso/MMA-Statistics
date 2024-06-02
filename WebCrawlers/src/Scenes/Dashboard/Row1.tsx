@@ -3,13 +3,14 @@
 import DashboardBox from '@/Components/DashboardBox';
 import { useGetEventsQuery } from '@/State/api';
 import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import { Button, useMediaQuery } from '@mui/material';
 
 const Row1 = ({ setActiveId = () => {} }: { setActiveId?: (id: string) => void }) => {    
     const { data, isLoading, isError } = useGetEventsQuery();
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [fightFilter, setFightFilter] = useState('Upcoming');
     const [activeId] = useState(null); // State to hold active ID
+    const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
     const monthMap = {
         "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5,
@@ -80,7 +81,7 @@ const Row1 = ({ setActiveId = () => {} }: { setActiveId?: (id: string) => void }
                 display: 'grid',
                 gridTemplateColumns: 'repeat(1, 1fr)',
                 overflow: 'auto',
-                maxHeight: '92%',
+                maxHeight: isSmallScreen ? '82%' : '92%', // Change maxHeight for small screens
                 maxWidth: '100%',
             }}>
                 {filteredEvents.map((event: { ID: never; Event_Name?: never; Event_Date?: never; Red_Fighter_images?: never; Blue_Fighter_images?: never; }) => (
