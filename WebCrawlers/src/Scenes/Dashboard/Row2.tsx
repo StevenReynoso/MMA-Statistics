@@ -200,7 +200,8 @@ const Row2 = (props: Props) => {
                 >
                   <div className="red-fighter-info"
                     style={{display:  isSmallScreen ? 'inline' : 'grid', 
-                            textAlign: isSmallScreen ? 'center' : ''
+                            textAlign: isSmallScreen ? 'center' : '',
+                            fontSize : isSmallScreen ? '0.8em' : ''
                     }}
                   >
                     <h2>{event.Red_Fighter_Name}
@@ -236,12 +237,14 @@ const Row2 = (props: Props) => {
                   >
                     <h2
                       style={{display:  isSmallScreen ? 'inline' : 'grid',
-                      textAlign: isSmallScreen ? 'center' : 'right'
+                      textAlign: isSmallScreen ? 'center' : 'right',
+                      fontSize : isSmallScreen ? '1.2em' : ''
                }}
                     >{event.Blue_Fighter_Name}
                       <p
                         style={{display:  isSmallScreen ? 'inline' : 'grid',
-                        textAlign: isSmallScreen ? 'center' : 'right'
+                        textAlign: isSmallScreen ? 'center' : 'right',
+                        fontSize : isSmallScreen ? '0.8em' : ''
                  }}
                       >{event.Blue_Fighter_Nickname}</p>
                     </h2>
