@@ -48,11 +48,6 @@
         transform: scale(1.01);
     }
 
-    .middleweight-bout {
-        text-align: center;
-        margin: 10px 0;
-    }
-
     .additional-stats {
         margin-bottom: 5em;
     }
@@ -64,6 +59,9 @@
     .additional-stats .label-column > div {
         margin-top: 10px;
     }
+
+
+
 }
 
 /* General styles */
@@ -105,7 +103,7 @@
     margin: 0;
 }
 
-.red-fighter-info img {
+/* .red-fighter-info img {
     width: 185px;
     height: 150px;
     object-fit: cover;
@@ -114,7 +112,7 @@
     margin-right: auto;
     grid-column: 2;
     grid-row: 1;
-}
+} */
 
 /* Blue Fighter */
 .blue-fighter-info {
@@ -152,10 +150,12 @@
 
 .additional-stats .red-stats-column {
     text-align: right;
+    text-wrap: nowrap;
 }
 
 .additional-stats .blue-stats-column {
     text-align: left;
+    text-wrap: nowrap;
 }
 
 .additional-stats .label-column {
@@ -165,6 +165,9 @@
 .additional-stats .label-column > div {
     margin-top: 14px;
 }
+
+
+
 
 /* Expanded icons */
 .columnFlex {
@@ -183,3 +186,6 @@
     text-align: center;
     margin-top: 38px;
 }
+
+
+

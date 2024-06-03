@@ -209,6 +209,7 @@ const Row2 = (props: Props) => {
         className="additional-stats"
         style={{
           fontSize: isSmallScreen ? "0.8em" : "",
+          marginBottom: isSmallScreen ? "40em" : "20em",
         }}
       >
         <div
