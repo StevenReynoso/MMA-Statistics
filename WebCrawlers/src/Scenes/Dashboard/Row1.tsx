@@ -5,11 +5,19 @@ import { useGetEventsQuery } from '@/State/api';
 import { useState, useEffect } from 'react';
 import { Button, useMediaQuery } from '@mui/material';
 
+interface Event {
+  ID: string;
+  Event_Name: string;
+  Event_Date: string;
+  Red_Fighter_images: string;
+  Blue_Fighter_images: string;
+}
+
 const Row1 = ({ setActiveId = () => {} }: { setActiveId?: (id: string) => void }) => {    
     const { data, isLoading, isError } = useGetEventsQuery();
-    const [hoveredIndex, setHoveredIndex] = useState(null);
+    const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
     const [fightFilter, setFightFilter] = useState('Upcoming');
-    const [activeId] = useState(null); // State to hold active ID
+    const [activeId, setActiveIdState] = useState<string | null>(null); // State to hold active ID
     const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
     const monthMap = {
@@ -28,7 +36,7 @@ const Row1 = ({ setActiveId = () => {} }: { setActiveId?: (id: string) => void }
         const currentMonth = currentDate.getMonth();
         const currentDay = currentDate.getDate();
 
-        return data?.filter((event: { Event_Date: string; }) => {
+        return data?.filter((event: Event) => {
             const findDate = normalizeString(event.Event_Date);
             const [monthName, day] = findDate.split(" ");
             const eventMonth =  monthMap[monthName];
@@ -42,15 +50,17 @@ const Row1 = ({ setActiveId = () => {} }: { setActiveId?: (id: string) => void }
         }) || [];
     };
 
-    const handleBoxClick = (eventData: { ID: unknown; }) => {
+    const handleBoxClick = (eventData: Event) => {
         setActiveId(eventData.ID);
+        setActiveIdState(eventData.ID); // Update local state as well
     };
 
     useEffect(() => {
         // Check if activeId exists in filteredEvents, if not, update activeId
         const filteredEvents = filterEvents();
-        if (setActiveId && !filteredEvents.find((event: { ID: null; }) => event.ID === activeId)) {
+        if (!filteredEvents.find((event) => event.ID === activeId)) {
             setActiveId(filteredEvents.length > 0 ? filteredEvents[0].ID : null);
+            setActiveIdState(filteredEvents.length > 0 ? filteredEvents[0].ID : null);
         }
     }, [data, fightFilter]); // Update when data or filter changes
 
@@ -84,7 +94,7 @@ const Row1 = ({ setActiveId = () => {} }: { setActiveId?: (id: string) => void }
                 maxHeight: isSmallScreen ? '82%' : '92%', // Change maxHeight for small screens
                 maxWidth: '100%',
             }}>
-                {filteredEvents.map((event: { ID: never; Event_Name?: never; Event_Date?: never; Red_Fighter_images?: never; Blue_Fighter_images?: never; }) => (
+                {filteredEvents.map((event) => (
                     <div
                         key={event.ID}
                         onClick={() => handleBoxClick(event)}
@@ -96,7 +106,7 @@ const Row1 = ({ setActiveId = () => {} }: { setActiveId?: (id: string) => void }
                             color: 'whitesmoke',
                             display: 'flex',
                             alignItems: 'center',
-                            borderColor: hoveredIndex === event.ID ? 'lightseagreen' : 'transparent',
+                            borderColor: activeId === event.ID ? 'lightseagreen' : (hoveredIndex === event.ID ? 'lightseagreen' : 'transparent'),
                             transition: 'all 0.3s ease-in-out'
                         }}
                     >
