@@ -204,7 +204,7 @@ const Row2 = (props: Props) => {
         className="additional-stats"
         style={{
           fontSize: isSmallScreen ? "0.8em" : "",
-          marginBottom: isSmallScreen ? "40em" : "20em",
+          marginBottom: isSmallScreen ? "" : "15em",
         }}
       >
         <div
@@ -299,6 +299,7 @@ const Row2 = (props: Props) => {
                         </p>
                       </h2>
 
+
                       <img
                         src={event.Red_Event_fighter_image}
                         alt="Red Fighter"
@@ -314,7 +315,7 @@ const Row2 = (props: Props) => {
                           height:
                             expandedId === event.Fight_Num
                               ? isSmallScreen
-                                ? "600px"
+                                ? ""
                                 : "600px"
                               : isSmallScreen
                               ? "100px"
@@ -333,10 +334,19 @@ const Row2 = (props: Props) => {
                     </div>
 
                     <div
-                      className="columnFlex"
+                      className={`columnFlex ${
+                        expandedId === event.Fight_Num ? "expanded" : ""
+                      }`}
                       style={{
                         fontSize: isSmallScreen ? "0.8em" : "",
-                        paddingBottom: isSmallScreen ? "6em" : "2em",
+                        paddingBottom:
+                          expandedId === event.Fight_Num
+                            ? isSmallScreen
+                              ? "0em"
+                              : "2em"
+                            : isSmallScreen
+                            ? "6em"
+                            : "2em",
                       }}
                     >
                       <h4
@@ -401,7 +411,7 @@ const Row2 = (props: Props) => {
                           height:
                             expandedId === event.Fight_Num
                               ? isSmallScreen
-                                ? "600px"
+                                ? ""
                                 : "600px"
                               : isSmallScreen
                               ? "100px"
