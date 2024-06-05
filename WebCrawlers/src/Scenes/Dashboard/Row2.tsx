@@ -45,7 +45,6 @@ const Row2 = (props: Props) => {
   } | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  console.log(props, hoveredIndex, Id, setId);
 
   const handleBoxClick = (
     id: number,
@@ -74,7 +73,6 @@ const Row2 = (props: Props) => {
   };
 
   const renderExpandedContent = (event: never) => {
-    console.log(event);
     if (!selectedFighterNames) return null;
     if (!tempselectedFighterNames) return null;
     let selectedRedFighter: {
@@ -103,7 +101,6 @@ const Row2 = (props: Props) => {
       const selectedRedName = normalizeString(
         tempselectedFighterNames.red
       ).trim();
-      console.log("@@R", fullName, selectedRedName);
       return fullName === selectedRedName;
     });
 
@@ -136,11 +133,9 @@ const Row2 = (props: Props) => {
       const selectedRedName = normalizeString(
         tempselectedFighterNames.blue
       ).trim();
-      console.log("@@R", fullName, selectedRedName);
       return fullName === selectedRedName;
     });
 
-    console.log("&&names", red);
     if (blue.length > 1 && blue.length != 0) {
       for (let i = 0; i < blue.length; i++) {
         const fighter = blue[i];
