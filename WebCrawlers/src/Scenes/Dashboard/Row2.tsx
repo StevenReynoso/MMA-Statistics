@@ -395,7 +395,7 @@ const Row2 = (props: Props) => {
                           {event.Blue_Fighter_Nickname}
                         </p>
                       </h2>
-<div>
+
                       <img
                         src={event.Blue_Event_fighter_image}
                         alt="Blue Fighter"
@@ -427,7 +427,7 @@ const Row2 = (props: Props) => {
                           gridRow: "1",
                         }}
                       />
-</div>
+
                     </div>
                     {expandedId === event.Fight_Num &&
                       renderExpandedContent(event)}
