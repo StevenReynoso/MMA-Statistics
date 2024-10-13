@@ -11,7 +11,7 @@ import {
   useGetFightsQuery,
   useGetKpisQuery,
 } from "@/State/api";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Row1 from "./Row1";
 
 type Props = {
@@ -26,10 +26,10 @@ const Row2 = (props: Props) => {
   const { data: fightersData } = useGetFightersQuery();
   const { data: kpisData } = useGetKpisQuery();
 
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number>(0);
   const [Id, setId] = useState<number>(0);
 
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [selectedFighterNames, setSelectedFighterNames] = useState<{
     red: string;
@@ -46,197 +46,132 @@ const Row2 = (props: Props) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleBoxClick = (
-    id: number,
-    redName: string,
-    redNick: string,
-    blueName: string,
-    blueNick: string
-  ) => {
-    setSelectedFighterNames({
-      red: redName + " " + redNick.trim(),
-      blue: blueName + " " + blueNick.trim(),
-    });
-    setExpandedId((prevId) => (prevId === id ? null : id));
-    setTempSelectedFighterNames({ red: redName, blue: blueName });
-    setSelectedFighterNick({ red: redNick, blue: blueNick });
-
-    // Pass the red and blue fighter names along with the ID to Row3
-  };
-
-  const normalizeString = (str: string) => {
+  const normalizeString = useCallback((str: string) => {
     return str
       .normalize("NFD") // Normalize to decomposed form
       .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
       .replace(/["']/g, "") // Remove single and double quotation marks
       .toLowerCase(); // Convert to lowercase
-  };
+  }, []);
 
-  const renderExpandedContent = (event: never) => {
-    if (!selectedFighterNames) return null;
-    if (!tempselectedFighterNames) return null;
-    let selectedRedFighter: {
-      Fighter_ID: never;
-      Ht: { [x: string]: never };
-      Wt: { [x: string]: never };
-      Reach: never;
-      Stance: never;
-    };
-    let selectedBlueFighter: {
-      Fighter_ID: never;
-      Ht: { [x: string]: never };
-      Wt: { [x: string]: never };
-      Reach: never;
-      Stance: never;
-    };
+  const handleBoxClick = useCallback(
+    (
+      id: number,
+      redName: string,
+      redNick: string,
+      blueName: string,
+      blueNick: string
+    ) => {
+      setSelectedFighterNames({
+        red: redName + " " + redNick.trim(),
+        blue: blueName + " " + blueNick.trim(),
+      });
+      setExpandedId((prevId) => (prevId === id ? null : id));
+      setTempSelectedFighterNames({ red: redName, blue: blueName });
+      setSelectedFighterNick({ red: redNick, blue: blueNick });
+    },
+    []
+  );
 
-    const nickFix = (str: string) => {
-      return str.replace(/[""]/g, "");
-    };
 
-    const red = fightersData.filter((fighter: unknown) => {
+  const filteredRedFighter = useMemo(() => {
+    if (!fightersData || !tempselectedFighterNames || !selectedFighterNick)
+      return null;
+
+    const nickFix = (str: string) => str.replace(/[""]/g, "");
+
+    const red = fightersData.filter((fighter: any) => {
       const fullName = normalizeString(
         `${fighter.First || ""} ${fighter.Last || ""}`
       ).trim();
-      const selectedRedName = normalizeString(
-        tempselectedFighterNames.red
-      ).trim();
+      const selectedRedName = normalizeString(tempselectedFighterNames.red).trim();
       return fullName === selectedRedName;
     });
 
-    if (red.length > 1 && red.length != 0) {
-      for (let i = 0; i < red.length; i++) {
-        const fighter = red[i];
-        if (
-          nickFix(selectedFighterNick?.red ?? "").trim() === fighter.Nickname
-        ) {
-          selectedRedFighter = fighter;
-          break;
-        }
-      }
-    } else {
-      selectedRedFighter = red[0];
-    }
-
-    //if(!redFighter) return null;
-
-    const redStats = selectedRedFighter
-      ? kpisData.find(
-          (stat: any) => stat.Fighter_ID === selectedRedFighter.Fighter_ID
+    return red.length > 1
+      ? red.find(
+          (fighter: any) =>
+            nickFix(selectedFighterNick.red).trim() === fighter.Nickname
         )
-      : null;
+      : red[0];
+  }, [fightersData, tempselectedFighterNames, selectedFighterNick, normalizeString]);
+
+  const filteredBlueFighter = useMemo(() => {
+    if (!fightersData || !tempselectedFighterNames || !selectedFighterNick)
+      return null;
+
+    const nickFix = (str: string) => str.replace(/[""]/g, "");
 
     const blue = fightersData.filter((fighter: any) => {
       const fullName = normalizeString(
         `${fighter.First || ""} ${fighter.Last || ""}`
       ).trim();
-      const selectedRedName = normalizeString(
-        tempselectedFighterNames.blue
-      ).trim();
-      return fullName === selectedRedName;
+      const selectedBlueName = normalizeString(tempselectedFighterNames.blue).trim();
+      return fullName === selectedBlueName;
     });
 
-    if (blue.length > 1 && blue.length != 0) {
-      for (let i = 0; i < blue.length; i++) {
-        const fighter = blue[i];
-        if (nickFix(selectedFighterNick?.blue).trim() === fighter.Nickname) {
-          selectedBlueFighter = fighter;
-          break;
-        }
-      }
-    } else {
-      selectedBlueFighter = blue[0];
-    }
-
-    //if(!blueFighter) return null;
-    const blueStats = selectedBlueFighter
-      ? kpisData.find(
-          (stat: any) => stat.Fighter_ID === selectedBlueFighter.Fighter_ID
+    return blue.length > 1
+      ? blue.find(
+          (fighter: any) =>
+            nickFix(selectedFighterNick.blue).trim() === fighter.Nickname
         )
-      : null;
+      : blue[0];
+  }, [fightersData, tempselectedFighterNames, selectedFighterNick, normalizeString]);
 
-    // Render red fighter stats
-    const redStat = () => {
-      if (selectedRedFighter && redStats) {
-        const r_Stats = [
-          { Record: redStats.W + "-" + redStats.L + "-" + redStats.D },
-          { Height: selectedRedFighter.Ht[""] },
-          { Weight: selectedRedFighter.Wt[""] },
-          { Reach: selectedRedFighter.Reach },
-          { Stance: selectedRedFighter.Stance },
-        ];
-        return (
-          <div>
-            {r_Stats.map((r_stat, index) => (
-              <p key={index}>{Object.values(r_stat)}</p>
-            ))}
-          </div>
-        );
-      } else {
-        return <p>Red Fighter Not found</p>;
-      }
-    };
+  // Render stats memoized
+  const renderStats = useCallback((fighter: any, stats: any) => {
+    if (!fighter || !stats) return <p>Fighter Not Found</p>;
 
-    // Render blue fighter stats
-    const blueStat = () => {
-      if (selectedBlueFighter && blueStats) {
-        const b_Stats = [
-          { Record: blueStats.W + "-" + blueStats.L + "-" + blueStats.D },
-          { Height: selectedBlueFighter.Ht[""] },
-          { Weight: selectedBlueFighter.Wt[""] },
-          { Reach: selectedBlueFighter.Reach },
-          { Stance: selectedBlueFighter.Stance },
-        ];
-        return (
-          <div>
-            {b_Stats.map((b_stat, index) => (
-              <p key={index}>{Object.values(b_stat)}</p>
-            ))}
-          </div>
-        );
-      } else {
-        return <p>Blue Fighter Not found</p>;
-      }
-    };
+    const fighterStats = [
+      { Record: stats.W + "-" + stats.L + "-" + stats.D },
+      { Height: fighter.Ht[""] },
+      { Weight: fighter.Wt[""] },
+      { Reach: fighter.Reach },
+      { Stance: fighter.Stance },
+    ];
 
     return (
-      <div
-        className="additional-stats"
-        style={{
-          fontSize: isSmallScreen ? "0.8em" : "",
-          marginBottom: isSmallScreen ? "" : "15em",
-        }}
-      >
-        <div
-          className="red-stats-column"
-          style={{ marginTop: isSmallScreen ? "inherit" : "" }}
-        >
-          {redStat()}
-        </div>
-        <div
-          className="label-column"
-          style={{
-            fontSize: isSmallScreen ? "0.8em" : "",
-          }}
-        >
+      <div>
+        {fighterStats.map((stat, index) => (
+          <p key={index}>{Object.values(stat)}</p>
+        ))}
+      </div>
+    );
+  }, []);
+
+  // Expanded content rendering
+  const renderExpandedContent = useCallback(() => {
+    if (!filteredRedFighter || !filteredBlueFighter) return null;
+
+    const redStats = kpisData?.find(
+      (stat: any) => stat.Fighter_ID === filteredRedFighter.Fighter_ID
+    );
+    const blueStats = kpisData?.find(
+      (stat: any) => stat.Fighter_ID === filteredBlueFighter.Fighter_ID
+    );
+
+    return (
+      <div className="additional-stats" style={{ fontSize: isSmallScreen ? "0.8em" : "" }}>
+        <div className="red-stats-column">{renderStats(filteredRedFighter, redStats)}</div>
+        <div className="label-column">
           Record
           <div>Height</div>
           <div>Weight</div>
           <div>Reach</div>
           <div>Stance</div>
         </div>
-        <div className="blue-stats-column">{blueStat()}</div>
+        <div className="blue-stats-column">{renderStats(filteredBlueFighter, blueStats)}</div>
       </div>
     );
-  };
+  }, [filteredRedFighter, filteredBlueFighter, kpisData, isSmallScreen, renderStats]);
 
   useEffect(() => {
     setExpandedId(null);
     if (containerRef.current) {
       containerRef.current.scrollTop = 0;
     }
-  }, [activeId]);
-
+  }, [setActiveId]);
+  
   return (
     <>
       <Row1 setActiveId={setActiveId} />
@@ -267,9 +202,8 @@ const Row2 = (props: Props) => {
                     }
                     onMouseEnter={() => setHoveredIndex(index)}
                     onMouseLeave={() => setHoveredIndex(null)}
-                    className={`event-container ${
-                      expandedId === event.Fight_Num ? "expanded" : ""
-                    }`}
+                    className={`event-container ${expandedId === event.Fight_Num ? "expanded" : ""
+                      }`}
                     style={{
                       justifyContent: isSmallScreen ? "flex-start" : "",
                     }}
@@ -310,16 +244,16 @@ const Row2 = (props: Props) => {
                                 ? "100px"
                                 : "auto"
                               : isSmallScreen
-                              ? "105px"
-                              : "185px",
+                                ? "105px"
+                                : "185px",
                           height:
                             expandedId === event.Fight_Num
                               ? isSmallScreen
                                 ? ""
                                 : "600px"
                               : isSmallScreen
-                              ? "100px"
-                              : "150px", //'600px' : '150px',
+                                ? "100px"
+                                : "150px", //'600px' : '150px',
                           objectFit:
                             expandedId === event.Fight_Num
                               ? "contain"
@@ -334,9 +268,8 @@ const Row2 = (props: Props) => {
                     </div>
 
                     <div
-                      className={`columnFlex ${
-                        expandedId === event.Fight_Num ? "expanded" : ""
-                      }`}
+                      className={`columnFlex ${expandedId === event.Fight_Num ? "expanded" : ""
+                        }`}
                       style={{
                         fontSize: isSmallScreen ? "0.8em" : "",
                         paddingBottom:
@@ -345,8 +278,8 @@ const Row2 = (props: Props) => {
                               ? "0em"
                               : "2em"
                             : isSmallScreen
-                            ? "6em"
-                            : "2em",
+                              ? "6em"
+                              : "2em",
                       }}
                     >
                       <h4
@@ -406,16 +339,16 @@ const Row2 = (props: Props) => {
                                 ? "100px"
                                 : "auto"
                               : isSmallScreen
-                              ? "105px"
-                              : "185px",
+                                ? "105px"
+                                : "185px",
                           height:
                             expandedId === event.Fight_Num
                               ? isSmallScreen
                                 ? ""
                                 : "600px"
                               : isSmallScreen
-                              ? "100px"
-                              : "150px", //'600px' : '150px',
+                                ? "100px"
+                                : "150px", //'600px' : '150px',
                           objectFit:
                             expandedId === event.Fight_Num
                               ? "contain"
