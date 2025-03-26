@@ -2,55 +2,90 @@ MMA Statistics Website
 ![image](https://github.com/StevenReynoso/MMA-Statistics/assets/114453891/c53b6e1a-60ad-45f5-b4d3-b79600299355)
 
 
+# 🏈 Octagon Fight Data - MMA Statistics Website
 
+**A full-stack web application delivering detailed statistics, fighter profiles, and match insights for MMA and UFC events.**
 
-Overview
+---
 
-This project aims to provide comprehensive statistics and information about Mixed Martial Arts (MMA) events, fighters, and matchups. It involves data scraping from MMA websites to collect event details, fighter profiles, and fight results. The scraped data is then stored in a MongoDB database and served through a RESTful API built with Node.js and Express.
+## 📆 Overview
+Octagon Fight Data provides comprehensive statistics and information on MMA fighters, matchups, and events. The system scrapes data from verified MMA sources, storing it in a MongoDB database, and serves this data through a RESTful API. The frontend, built in React.js, enables fans, analysts, and enthusiasts to explore upcoming events, view fighter profiles, and analyze matchup statistics.
 
-The front end of the website is developed using React.js, providing a user-friendly interface to explore MMA statistics. Users can browse upcoming and past events, view fighter profiles, analyze fight statistics, and more. The website offers valuable insights for MMA enthusiasts, analysts, and fans.
-Features
+---
 
-    Event Listings: Browse upcoming and past MMA events with detailed information such as event name, date, location, and fight card.
-    Fighter Profiles: Explore profiles of MMA fighters, including biographical details, fight records, weight class, and image galleries.
-    Fight Results: Access comprehensive fight results, including winners, losers, methods of victory, and round outcomes.
-    Statistical Analysis: Analyze fight statistics, such as striking accuracy, grappling success, knockout rates, and submission percentages.
-    Responsive Design: The website is optimized for various devices, including desktops, tablets, and mobile phones, ensuring a seamless user experience across platforms.
+## 🔹 Features
+- **📅 Event Listings**: View upcoming and past MMA events with full fight card, date, and location details.
+- **👨‍🏋️ Fighter Profiles**: Explore bios, records, weight classes, and galleries for MMA fighters.
+- **⚔️ Fight Results**: See results including winners, methods (e.g., KO, submission), rounds, and fight stats.
+- **🥇 Statistical Analysis**: Breakdown of fighter performance—striking accuracy, grappling, submission rates, and more.
+- **🛏️ Responsive Design**: Fully optimized for desktop, tablet, and mobile users.
 
-Technologies Used
+---
 
-    Frontend:
-        React.js
-        Redux Toolkit
-        Typescript
-        React Router
-        HTML5/CSS3
-        Axios (for API requests)
+## 🚀 Technologies Used
 
-    Backend:
-        Node.js
-        Express.js
-        MongoDB (with Mongoose ODM)
-        RESTful API architecture
+### Frontend
+- React.js
+- Redux Toolkit
+- TypeScript
+- React Router
+- HTML5 / CSS3
+- Axios
 
-    Data Scraping:
-        BeautifulSoup (Python library for web scraping)
-        Requests (Python library for HTTP requests)
+### Backend
+- Node.js
+- Express.js
+- MongoDB with Mongoose ODM
+- RESTful API architecture
 
-Setup Instructions
+### Data Scraping
+- Python
+  - BeautifulSoup (HTML parsing)
+  - Requests (HTTP library)
 
-    Clone the repository to your local machine.
-    Navigate to the project directory.
-    Install dependencies using npm install.
-    Start the backend server using npm start.
-    Navigate to the client directory.
-    Install frontend dependencies using npm install.
-    Start the React development server using npm start.
-    Access the website through the provided URL (usually http://localhost:3000).
+---
 
-Contributing
+## 🛠️ Setup Instructions
 
-Contributions to this project are welcome! If you find any issues or have suggestions for improvements, please feel free to submit a pull request or open an issue on GitHub.
-License
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/StevenReynoso/octagon-fight-data.git
+   ```
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+2. **Backend setup**:
+   ```bash
+   cd server
+   npm install
+   npm start
+   ```
+
+3. **Frontend setup**:
+   ```bash
+   cd client
+   npm install
+   npm start
+   ```
+
+4. **View the website**:
+   Navigate to `http://localhost:3000` in your browser.
+
+---
+
+## 📚 Contributing
+Contributions are welcome! If you find issues or have ideas to improve the project:
+- Submit a pull request
+- Open an issue
+- Star the repo if you found it helpful!
+
+---
+
+## 📚 License
+Distributed under the MIT License.
+
+---
+
+## 👨‍💻 Author
+**Steven Reynoso**  
+GitHub: [@StevenReynoso](https://github.com/StevenReynoso)  
+Contact: sreynosowork@gmail.com
+
